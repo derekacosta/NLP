@@ -1,0 +1,36 @@
+1: Text Processing for "The Chaos"
+You will need:
+
+chaos.html (originally downloaded from http://ncf.idallen.com/english.html)
+The CMU Pronouncing Dictionary (cmudict), accessible through NLTK: from nltk.corpus import cmudict
+starter code: chaos2json.py, allpron.py, exact_rhymes.py
+"The Chaos" is a poem poking fun at the nonsensicality of English spelling given the modern pronunciation of English words. It consists of rhyming couplets where words with similar spellings but different pronunciations (and vice versa) are shown in italics or quotes. This assignment focuses on the words at the end of the line that rhyme with the previous or subsequent line. Usually it is the last word of a line that rhymes, but sometimes it is two words that rhyme with a single word on the other line: e.g., "poet" / "sew it".
+
+The CMU Pronouncing Dictionary is an open-source dictionary of English words and their pronunciations. Each pronunciation is given as a sequence of phonemes written with the Arpabet notation. From Jurafsky & Martin, Speech and Language Processing, 2nd ed. (2009), Ch. 8:
+
+One of the most widely-used [phonetic dictionaries] for TTS [text-to-speech] is the freely available CMU Pronouncing Dictionary (CMU, 1993), which has pronunciations for about 120,000 words. The pronunciations are roughly phonemic, from a 39-phone ARPAbet-derived phoneme set. Phonemic transcriptions means that instead of marking surface reductions like the reduced vowels [ax] or [ix], CMUdict marks each vowel with a stress tag, 0 (unstressed), 1 (stressed), or 2 (secondary stress). Thus (non-diphthong) vowels with 0 stress generally correspond to [ax] or [ix]. Most words have only a single pronunciation, but about 8,000 of the words have two or even three pronunciations, and so some kinds of phonetic reductions are marked in these pronunciations. The dictionary is not syllabified, although the nucleus is implicitly marked by the (numbered) vowel....
+
+The CMU dictionary was designed for speech recognition rather than synthesis uses; thus it does not specify which of the multiple pronunciations to use for synthesis, does not mark syllable boundaries, and because it capitalizes the dictionary headwords, does not distinguish between e.g., US and us (the form US has the two pronunciations [AH1 S] and [Y UW1 EH1 S].
+NLTK provides an API to access the entries as (spelling, pronunciation) pairs. To download the data the first time you use it, call nltk.download("cmudict").
+
+Complete chaos2json.py so it converts the HTML page to the JSON format, which is more convenient for text processing. Use Python's built-in json library, which will handle the conversion from and to Python data structures (dicts, lists) and values.
+
+Your implementation should have at least one regular expression (to extract the textual content of each line), and use NLTK's word_tokenize function as the tokenizer. You may also use built-in string methods/operations and write your own helper functions.
+
+The word_tokenize function does not separate hyphens, but this text uses hyphens in place of dashes, so your code should separate them.
+
+Hint 1: The HTML contains (nonstandard) tags like <xxx3> at the beginning of each line. The number is the line within the stanza (between 1 and 4).
+
+Hint 2: The use of italics for example words in the poem is not completely consistent. You may need to special-case your handling of a few of the lines to extract the rhyming word(s) from the end.
+
+Hint 3: When converting to JSON, use the indent argument to make it more human-readable.
+
+(This script should not take extremely long to implement, but it will probably take you longer than you expect.)
+
+Complete allpron.py to look up each rhyming word in cmudict and add its possible (known) pronunciations to the JSON.
+
+How many rhyming words are NOT found in cmudict (they are "out-of-vocabulary", or "OOV")? In your code, leave a comment indicating how many and give a few examples.
+
+In exact_rhymes.py, implement a simple heuristic to determine whether two pronunciations rhyme or not. This should be fairly strict, rejecting most near-rhymes. Make sure to explain your heuristic in a comment.
+
+How many pairs of lines that are supposed to rhyme actually have rhyming pronunciations according to your heuristic? For how many lines does having the rhyming line help you disambiguate between multiple possible pronunciations? What are some reasons that your heuristic is imperfect?
